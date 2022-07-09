@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  nginx:
+    build:
+      context: ./docker/dev/nginx
+    volumes:
+      - ./:/app
+    container_name: nginx
+    restart: always
+    ports:
+      - "8081:80"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  php-fpm:
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    build:
+      context: ./docker/dev/php
+    volumes:
+      - ./:/app
+    container_name: symfony
+    environment:
+      PHP_IDE_CONFIG: "serverName=profit"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+  postgres:
+    image: postgres:13
+    ports:
+      - "11000:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data:rw
+    environment:
+      - POSTGRES_PASSWORD=profit
+      - POSTGRES_USER=profit
+      - POSTGRES_DB=profit
+    restart: unless-stopped
+
+volumes:
+  pgdata:
