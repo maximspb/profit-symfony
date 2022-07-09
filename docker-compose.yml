@@ -6,7 +6,7 @@ services:
       context: ./docker/dev/nginx
     volumes:
       - ./:/app
-    container_name: nginx
+    container_name: nginx_symfony
     restart: always
     ports:
       - "8081:80"
@@ -32,9 +32,9 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data:rw
     environment:
-      - POSTGRES_PASSWORD=profit
-      - POSTGRES_USER=profit
-      - POSTGRES_DB=profit
+      - POSTGRES_PASSWORD=profit_symfony
+      - POSTGRES_USER=profit_symfony
+      - POSTGRES_DB=profit_symfony
     restart: unless-stopped
 
 volumes:
