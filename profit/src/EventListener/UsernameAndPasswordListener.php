@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\EventListener;
-
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -19,7 +17,7 @@ class UsernameAndPasswordListener
         $unauthorizedResponse = new Response(status: Response::HTTP_UNAUTHORIZED);
 
         if (
-            $request->headers->get('X-UserName') !== self::ADMIN_USERNAME
+            self::ADMIN_USERNAME !== $request->headers->get('X-UserName')
             ||
             false === password_verify(self::PASSWORD, $request->headers->get('X-Password'))
         ) {
